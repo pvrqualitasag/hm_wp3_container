@@ -1,0 +1,180 @@
+---
+title: "Use Cases of Container Technology"
+author: "Peter von Rohr"
+date: "1/18/2021"
+output:
+  beamer_presentation: default
+  ioslides_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+# rmdhelp::show_knit_hook_call()
+knitr::knit_hooks$set(hook_convert_odg = rmdhelp::hook_convert_odg)
+```
+
+## Background
+
+* __Problem__: Multiple Applications (Apps) on the same machine can lead to
+    + OS^[Operating System] Windows: DLL hell
+    + OS *nix: library nightmare
+* In general: dependencies between software components are difficult to manage
+* Solution: encapsulation of software and libraries into independent units
+
+
+## Solution I: Hardware
+
+One server/machine per App
+
+```{r one-server, echo=FALSE, hook_convert_odg=TRUE, fig_path="odg", out.width='10cm'}
+#rmdhelp::use_odg_graphic(ps_path = 'odg/one-server.odg')
+knitr::include_graphics(path = "odg/one-server.png")
+```
+ 
+
+## Problems with Solution I
+
+* efficiency: hardware costs per app
+* security: drag along old OS-versions (Win XP, Win 7, old *nix)
+* flexibility: testing new apps, updating cycle of existing apps
+
+
+## Solution II: Virtualisation
+
+Hypervisor Software as separation between host and guest
+
+```{r virtualisation, echo=FALSE, hook_convert_odg=TRUE, fig_path="odg", out.width='10cm'}
+#rmdhelp::use_odg_graphic(ps_path = 'odg/virtualisation.odg')
+knitr::include_graphics(path = "odg/virtualisation.png")
+```
+ 
+ 
+## Problems with Solution II
+
+* still just one app per (guest) OS
+* intensive in resource requirements
+* redundancy in configurations and settings (e.g. network)
+
+
+## Solution III: Containers
+
+Container daemon replaces hypervisor
+
+```{r container, echo=FALSE, hook_convert_odg=TRUE, fig_path="odg", out.width='10cm'}
+#rmdhelp::use_odg_graphic(ps_path = 'odg/container.odg')
+knitr::include_graphics(path = "odg/container.png")
+```
+
+
+## Container Facts
+
+* Full benefit only with linux OS
+* With OS Win and OS Mac: closer to virtualisation
+* Still
+    + develop it once, run it somewhere else
+    + great for testing and updating systems
+    
+    
+## Container Products
+
+* Docker
+    + best known
+    + industry standard
+    + deployment in the cloud
+    + requires root
+    + images in layers
+    + portability via dockerhub
+* Singularity
+    + preferred in HPC environment
+    + can be run as non-root
+    + images in files
+    + portability via hubs (singularity and docker)
+    + can build images based on dockerfiles
+
+
+## Demo I: Getting Started with Docker
+
+* On Mac/Win: Download docker desktop (https://docs.docker.com/desktop/)
+
+```{r docker-download, echo=FALSE, hook_convert_odg=TRUE, fig_path="odg", out.width='10cm'}
+#rmdhelp::use_odg_graphic(ps_path = 'odg/docker-download.odg')
+knitr::include_graphics(path = "odg/docker-download.png")
+```
+
+
+## Docker Desktop Check
+
+* Check whether docker desktop was installed
+
+```
+# show the version
+docker version
+```
+
+* Run a first container image
+
+```
+docker run hello-world
+```
+
+
+## Useful Docker Commands
+
+```
+# list of containers
+docker ps -a
+# remove container
+docker rm <container_id>
+# list of images
+docker images
+# remove images
+docker rmi <image_name>
+# download image from dockerhub
+docker pull <image_name>
+```
+
+
+## Dockerhub
+
+* registry of public images: https://hub.docker.com/
+* wide collection of docker images (e.g. ubuntu)
+* try
+
+```
+docker pull ubuntu
+```
+
+
+## Dockerfile
+
+* Create own images via Dockerfile
+* Example: run a python script
+
+```{r simple-do, echo=FALSE, hook_convert_odg=TRUE, fig_path="odg", out.width='10cm'}
+#rmdhelp::use_odg_graphic(ps_path = 'odg/simple-do.odg')
+knitr::include_graphics(path = "odg/simple-do.png")
+```
+
+
+## Build and Run
+
+```
+# build image from Dockerfile
+docker build -t my_do_py .
+...
+# run
+docker run -it my_do_py python /app/my_script.py
+```
+
+* Add the run command to the Dockerfile by
+
+```
+CMD ["python", "/app/my_script.py"]
+```
+
+
+## Resources
+
+* Container Explainer: https://www.youtube.com/watch?v=FWpnbGnzk08 
+* Virtual Machines vs Docker Containers - Dive Into Docker: https://www.youtube.com/watch?v=TvnZTi_gaNc
+* Docker for beginners: https://docker-curriculum.com/  
