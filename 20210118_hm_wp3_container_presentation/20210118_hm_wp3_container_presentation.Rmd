@@ -173,6 +173,11 @@ CMD ["python", "/app/my_script.py"]
 ```
 
 
+## Deployment
+
+* Other server: 2-htz.quagzws.com
+
+
 ## Resources
 
 * Container Explainer: https://www.youtube.com/watch?v=FWpnbGnzk08 

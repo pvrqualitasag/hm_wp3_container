@@ -7,4 +7,4 @@ WORKDIR /app
 
 ADD . /app
 
-#CMD ["python", "/app/my_script.py"]
+CMD ["python", "/app/my_script.py"]
