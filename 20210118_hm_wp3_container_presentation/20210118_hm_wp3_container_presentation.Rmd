@@ -176,6 +176,75 @@ CMD ["python", "/app/my_script.py"]
 ## Deployment
 
 * Other server: 2-htz.quagzws.com
+* Use the same Dockerfile for building
+* Run with the same commands
+
+
+## Real World
+
+* Rstudio form inside docker
+* Dockerhub
+
+```
+docker run -d --rm -p 10087:8787 \
+  -e PASSWORD=yourpasswordhere rocker/rstudio
+```
+
+* Map home directory with option `-v <host_dir>:<container_dir>`
+
+
+## Singularity
+
+* Reference: https://sylabs.io/
+* Organises images in files
+* Can be run as ordinary user
+* Work with sandbox
+
+
+## Singularity Sandbox
+
+```
+sudo singularity build --sandbox ubuntu_s docker://ubuntu
+```
+
+* Write singularity file
+* Run python program
+
+```
+singularity exec ubuntu_s/ python my_script.py
+```
+
+## Update Sandbox
+
+```
+sudo singularity shell --writable ubuntu_s
+apt-get update -y
+apt-get install -y python
+```
+
+## Singularity File
+
+```
+Bootstrap: docker
+From: ubuntu
+
+%post
+    apt-get -y update
+    apt-get install -y python
+    
+%files
+    my_script.py /
+    
+%runscript
+    python /my_script.py
+```
+
+* Build and run with
+
+```
+sudo singularity build ubuntu.sif Singularity.recipe
+./ubuntu.sif
+```
 
 
 ## Resources
@@ -183,3 +252,5 @@ CMD ["python", "/app/my_script.py"]
 * Container Explainer: https://www.youtube.com/watch?v=FWpnbGnzk08 
 * Virtual Machines vs Docker Containers - Dive Into Docker: https://www.youtube.com/watch?v=TvnZTi_gaNc
 * Docker for beginners: https://docker-curriculum.com/  
+* Singularity:  https://sylabs.io/
+* Singularity Example Workflow: https://www.youtube.com/watch?v=m8llDjFuXlc&t=15s
