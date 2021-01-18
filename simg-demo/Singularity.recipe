@@ -1,0 +1,13 @@
+Bootstrap: docker
+From: ubuntu
+
+%post
+    apt-get -y update
+    apt-get install -y python
+    
+%files
+    my_script.py /
+    
+%runscript
+    python /my_script.py
+
